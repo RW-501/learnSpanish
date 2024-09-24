@@ -35,6 +35,9 @@ function displaySentence(sentence, isSaved) {
 
     if (isSaved) {
                 const [english, spanish] = sentence.split('Español:'); // Split into English and Spanish
+                const [english] = english.slice('English:'); // Split into English and Spanish
+
+        
         sentenceContainer.innerHTML = `<strong>English:</strong> ${english}<br/><strong>Español:</strong> ${spanish}`;
         readSentence(english, 'en-US'); // Read the English part
         readSentence(spanish, 'es-ES'); // Read the Spanish part
