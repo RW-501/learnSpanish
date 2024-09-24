@@ -17,13 +17,10 @@
             <p id="sentence" class="sentence"></p>
         </div>
         <div class="controls">
-            <button id="repeat-btn">Repeat</button>
-            <button id="stop-btn">Stop</button>
+            <button id="play-stop-btn">Play</button>
             <button id="next-btn">Next</button>
             <button id="save-btn">Save Sentence</button>
-            <button id="play-saved-btn">Play Saved List</button>
-            <button id="auto-play-btn">Auto Play</button>
-            <button id="stop-auto-play-btn">Stop Auto Play</button>
+            <button id="auto-play-stop-btn">Auto Play</button>
         </div>
         <div class="speed-control">
             <label for="speed">Speech Speed:</label>
@@ -39,10 +36,15 @@
             <ul id="sentence-list"></ul>
             <button id="clear-list-btn">Clear List</button>
         </div>
-        <div class="suggestion">
+        <button id="suggestion-btn">Suggest a Sentence</button>
+    </div>
+
+    <div id="suggestion-popup" class="popup">
+        <div class="popup-content">
             <h2>Suggest a Sentence</h2>
             <input type="text" id="suggestion-input" placeholder="Enter your suggestion">
-            <button id="suggestion-btn">Submit Suggestion</button>
+            <button id="submit-suggestion-btn">Submit Suggestion</button>
+            <button id="close-popup-btn">Close</button>
             <p id="suggestion-response" class="response"></p>
         </div>
     </div>
