@@ -9,25 +9,29 @@
 <body>
     <div class="container">
         <h1>Learn Spanish with Sentences</h1>
+        
+<div class="category-selector">
+    <select id="category-dropdown" class="category-select" onchange="loadSentences()">
+        <option value="basic">Basic Expressions</option>
+        <option value="numbers">Numbers</option>
+        <option value="people">People</option>
+        <option value="food">Food</option>
+        <option value="clothing">Clothing</option>
+        <option value="office">Office</option>
+        <option value="relationships">Relationships</option>
+        <option value="travel">Travel</option>
+        <option value="health">Health</option>
+        <option value="colors">Colors</option>
+        <option value="weather">Weather</option>
+        <option value="hobbies">Hobbies</option>
+        <option value="shopping">Shopping</option>
+        <option value="sports">Sports</option>
+        <option value="nature">Nature</option>
+        <option value="technology">Technology</option>
+        <option value="playSaved">Play Saved List</option>
+    </select>
+</div>
 
-        <div class="category-selector">
-            <select id="category-dropdown" class="category-select" onchange="loadSentences()">
-                <option value="conversation">Conversation</option>
-                <option value="food">Food</option>
-                <option value="clothing">Clothing</option>
-                <option value="office">Office</option>
-                <option value="relationship">Relationship</option>
-                <option value="feelings">Feelings and Emotions</option>
-                <option value="household">Household Tasks</option>
-                <option value="events">Events</option>
-                <option value="transportation">Transportation</option>
-                <option value="emergency">Emergency</option>
-                <option value="numbers">Numbers</option>
-                <option value="people">People</option>
-                <option value="basic">Basic Expressions</option>
-                <option value="playSaved">Play Saved List</option>
-            </select>
-        </div>
 
         <div class="sentence-container" id="sentence-container">
             <!-- Sentence will be displayed here -->
