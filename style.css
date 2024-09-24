@@ -29,31 +29,42 @@ h1 {
     margin: 20px 0;
 }
 
-/* Control button styles */
 .controls {
-    margin-top: 20px;                /* Space above the control buttons */
+    margin-top: 20px;
 }
 
-/* Button styles */
 button {
-    background-color: #4CAF50;       /* Green background for buttons */
-    color: white;                    /* White text color for buttons */
-    border: none;                    /* No border */
-    border-radius: 5px;              /* Rounded corners for buttons */
-    padding: 10px 15px;              /* Padding inside the buttons */
-    cursor: pointer;                 /* Pointer cursor on hover */
-    font-size: 16px;                 /* Font size for buttons */
-    margin: 0 10px;                  /* Horizontal margin for spacing */
-    transition: background-color 0.3s; /* Smooth transition on hover */
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 0 10px;
+    transition: background-color 0.3s;
 }
 
-/* Button hover effect */
 button:hover {
-    background-color: #45a049;       /* Darker green on hover */
+    background-color: #45a049;
 }
 
-/* Highlight styles for Spanish words */
 .highlight {
-    background-color: #ffeb3b;       /* Yellow background for highlighted text */
-    font-weight: bold;               /* Bold text for emphasis */
+    background-color: #ffeb3b;
+    font-weight: bold;
+}
+
+/* Style for saved sentences section */
+.saved-sentences {
+    margin-top: 30px;
+    text-align: left;
+}
+
+#sentence-list {
+    list-style-type: none; /* No bullets for the list */
+    padding: 0; /* No padding */
+}
+
+#sentence-list li {
+    padding: 5px 0; /* Space between list items */
 }
