@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Learning - Spanish Practice</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Learn Spanish</h1>
+        <div class="category-selection">
+            <label for="category">Select a category:</label>
+            <select id="category" onchange="loadSentences()">
+                <option value="">--Choose a category--</option>
+                <option value="conversation">Conversation</option>
+                <option value="food">Food</option>
+                <option value="clothing">Clothing</option>
+                <option value="office">Office</option>
+                <option value="relationship">Relationship</option>
+            </select>
+        </div>
+
+        <div id="sentence-display" class="sentence-display"></div>
+        <button id="repeat-button" class="repeat-button" onclick="repeatSentence()" disabled>Repeat</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
