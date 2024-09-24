@@ -1,98 +1,27 @@
 {
     "conversation": [
-        "Hello, ¿cómo estás?",
-        "What is your name, ¿cuál es tu nombre?",
-        "I like to talk, me gusta hablar.",
-        "Where are you from, ¿de dónde eres?",
-        "Do you speak Spanish, ¿hablas español?",
-        "It's nice to meet you, mucho gusto.",
-        "How old are you, ¿cuántos años tienes?",
-        "I am happy, estoy feliz.",
-        "Can we be friends, ¿podemos ser amigos?",
-        "What do you do for work, ¿qué haces para trabajar?"
+        "How are you?|¿Cómo estás?",
+        "What is your name?|¿Cuál es tu nombre?",
+        "Where are you from?|¿De dónde eres?"
     ],
     "food": [
-        "I want food, quiero comida.",
-        "This is delicious, esto es delicioso.",
-        "Do you have water, ¿tienes agua?",
-        "I love tacos, me encantan los tacos.",
-        "What do you want to eat, ¿qué quieres comer?",
-        "I would like a coffee, me gustaría un café.",
-        "This dish is spicy, este plato es picante.",
-        "Do you have dessert, ¿tienes postre?",
-        "I eat breakfast at eight, desayuno a las ocho.",
-        "Can I have the menu, ¿puedo tener el menú?"
+        "I like to eat tacos.|Me gusta comer tacos.",
+        "Can I have the menu, please?|¿Puedo tener el menú, por favor?",
+        "This dish is delicious.|Este plato es delicioso."
     ],
     "clothing": [
-        "I need a shirt, necesito una camisa.",
-        "These pants are nice, estos pantalones son bonitos.",
-        "Where is the store, ¿dónde está la tienda?",
-        "I bought shoes, compré zapatos.",
-        "What color is this dress, ¿de qué color es este vestido?",
-        "I want a jacket, quiero una chaqueta.",
-        "This hat looks good, este sombrero se ve bien.",
-        "Do you have this in a different size, ¿tienes esto en una talla diferente?",
-        "I like your outfit, me gusta tu atuendo.",
-        "How much does this cost, ¿cuánto cuesta esto?"
+        "I need a new shirt.|Necesito una nueva camisa.",
+        "Where can I find shoes?|¿Dónde puedo encontrar zapatos?",
+        "These jeans fit well.|Estos jeans quedan bien."
     ],
     "office": [
-        "I have a meeting, tengo una reunión.",
-        "Please send the report, por favor envía el informe.",
-        "Can you help me, ¿puedes ayudarme?",
-        "I need a pen, necesito un bolígrafo.",
-        "Where is the printer, ¿dónde está la impresora?",
-        "Let’s schedule a call, programemos una llamada.",
-        "I will finish this by tomorrow, terminaré esto para mañana.",
-        "What is your email address, ¿cuál es tu dirección de correo electrónico?",
-        "I need to check my calendar, necesito revisar mi calendario.",
-        "Can you print this document, ¿puedes imprimir este documento?"
+        "I have a meeting at ten.|Tengo una reunión a las diez.",
+        "Can you send me the report?|¿Puedes enviarme el informe?",
+        "I need to make a phone call.|Necesito hacer una llamada."
     ],
     "relationship": [
-        "She is my friend, ella es mi amiga.",
-        "I love you, te amo.",
-        "We are a couple, somos una pareja.",
-        "He is very nice, él es muy amable.",
-        "Do you want to go out, ¿quieres salir?",
-        "This is my brother, este es mi hermano.",
-        "I miss you, te extraño.",
-        "We have been together for a long time, hemos estado juntos mucho tiempo.",
-        "I appreciate your support, agradezco tu apoyo.",
-        "Let’s spend some time together, pasemos un tiempo juntos."
-    ],
-    "travel": [
-        "I need a ticket, necesito un boleto.",
-        "Where is the airport, ¿dónde está el aeropuerto?",
-        "What time is the flight, ¿a qué hora es el vuelo?",
-        "I want to book a hotel, quiero reservar un hotel.",
-        "Can you recommend a restaurant, ¿puedes recomendar un restaurante?",
-        "I lost my luggage, perdí mi equipaje.",
-        "How do I get to the city center, ¿cómo llego al centro de la ciudad?",
-        "Is there a bus station nearby, ¿hay una estación de autobuses cerca?",
-        "I enjoy traveling, disfruto viajar.",
-        "What is the best way to explore the city, ¿cuál es la mejor manera de explorar la ciudad?"
-    ],
-    "health": [
-        "I feel sick, me siento enfermo.",
-        "I need a doctor, necesito un médico.",
-        "What is wrong, ¿qué está mal?",
-        "I have a headache, tengo dolor de cabeza.",
-        "How do I get to the hospital, ¿cómo llego al hospital?",
-        "I need a prescription, necesito una receta.",
-        "Are you allergic to anything, ¿eres alérgico a algo?",
-        "I want to eat healthy, quiero comer sano.",
-        "I exercise regularly, hago ejercicio regularmente.",
-        "How can I improve my health, ¿cómo puedo mejorar mi salud?"
-    ],
-    "shopping": [
-        "I need to go shopping, necesito ir de compras.",
-        "Where is the nearest mall, ¿dónde está el centro comercial más cercano?",
-        "Can I try this on, ¿puedo probarme esto?",
-        "Do you accept credit cards, ¿aceptan tarjetas de crédito?",
-        "I am looking for a gift, estoy buscando un regalo.",
-        "This is on sale, esto está en oferta.",
-        "I want a refund, quiero un reembolso.",
-        "How long is the warranty, ¿cuánto dura la garantía?",
-        "I found a great deal, encontré una gran oferta.",
-        "Can you gift wrap this, ¿puedes envolver esto como regalo?"
+        "We are friends.|Somos amigos.",
+        "I love spending time with you.|Me encanta pasar tiempo contigo.",
+        "Let's go out for dinner.|Vamos a salir a cenar."
     ]
 }
