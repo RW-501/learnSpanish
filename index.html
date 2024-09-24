@@ -3,18 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Language Learning App</title>
-</head>
-<body>
-    <div class="container">
-        <h1>Learn Spanish</h1>
-
-        <div class="category-selector"><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spanish Learning App</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -50,10 +38,9 @@
             <button id="auto-play-button">Auto Play</button>
             <button id="stop-button">Stop</button>
             <button id="save-button">Save Sentence</button>
-         <!--    <button id="clear-button">Clear Saved Sentences</button>
+            <button id="clear-button">Clear Saved Sentences</button>
             <button id="suggest-button">Add Suggestion</button>
             <button id="remove-button">Remove Selected Sentence</button>
-            -->
 
             <div class="speed-control">
                 <label for="speed-dropdown">Speech Speed:</label>
@@ -86,56 +73,6 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
-</body>
-</html>
-
-            <label for="category">Choose a category:</label>
-            <select id="category" onchange="loadSentences()">
-                <option value="">Select a category</option>
-                <option value="conversation">Conversation</option>
-                <option value="food">Food</option>
-                <option value="clothing">Clothing</option>
-                <option value="office">Office</option>
-                <option value="relationship">Relationship</option>
-                <option value="saved">Play Saved List</option>
-            </select>
-        </div>
-
-        <div class="sentence-container" id="sentence"></div>
-
-        <div class="controls">
-            <button id="play-stop-btn">Play</button>
-            <button id="auto-play-stop-btn">Auto Play</button>
-            <label for="speed">Speed:</label>
-            <select id="speed">
-                <option value="0.5">0.5x</option>
-                <option value="1" selected>1.0x</option>
-                <option value="1.5">1.5x</option>
-                <option value="2">2.0x</option>
-            </select>
-            <button id="save-btn">Save Sentence</button>
-            <button id="clear-list-btn">Clear List</button>
-            <label for="volume">Volume:</label>
-            <input type="range" id="volume" min="0" max="1" step="0.1" value="1">
-            <label for="voice-select">Select Voice:</label>
-            <select id="voice-select"></select>
-        </div>
-
-        <ul id="sentence-list"></ul>
-
-        <button id="suggestion-btn">Suggest a Sentence</button>
-
-        <div id="suggestion-popup" class="popup">
-            <div class="popup-content">
-                <span id="close-popup-btn">&times;</span>
-                <h2>Suggest a Sentence</h2>
-                <input type="text" id="suggestion-input" placeholder="Enter your suggestion">
-                <button id="submit-suggestion-btn">Submit</button>
-                <div id="suggestion-response"></div>
-            </div>
-        </div>
-    </div>
     <script src="script.js"></script>
 </body>
 </html>
