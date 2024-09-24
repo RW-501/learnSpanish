@@ -3,6 +3,8 @@ let sentences = [];
 let currentSentenceIndex = 0;
 let currentUtterance = null; // To keep track of the current speech
 let savedSentences = JSON.parse(localStorage.getItem('savedSentences')) || [];
+let autoPlayInterval = null; // For auto play
+let currentSpeed = 1; // Default speed
 
 // Fetch data from the JSON file
 fetch('data.json')
@@ -82,7 +84,7 @@ function readSentence(sentence) {
     }
 
     currentUtterance = new SpeechSynthesisUtterance(sentence);
-    currentUtterance.rate = 0.7; // Slowing down the speech rate
+    currentUtterance.rate = currentSpeed; // Use current speed
     window.speechSynthesis.speak(currentUtterance);
     currentUtterance.onend = () => {
         // Automatically move to the next sentence after speaking ends
@@ -129,32 +131,64 @@ function updateSavedSentencesList() {
     });
 }
 
+// Add event listener for the Play Saved List button
+document.getElementById('play-saved-btn').addEventListener('click', () => {
+    if (savedSentences.length > 0) {
+        currentSentenceIndex = 0;
+        playSavedSentences();
+    }
+});
+
 // Function to play saved sentences
 function playSavedSentences() {
-    if (savedSentences.length === 0) {
-        alert('No saved sentences to play.');
-        return;
+    if (currentSentenceIndex < savedSentences.length) {
+        const currentSentence = savedSentences[currentSentenceIndex];
+        const sentenceElement = document.getElementById('sentence');
+        sentenceElement.innerHTML = currentSentence; // Display the current sentence
+        readSentence(currentSentence);
+        currentSentenceIndex++;
+    } else {
+        currentSentenceIndex = 0; // Reset to the start
     }
-    let index = 0;
-
-    const playNextSentence = () => {
-        if (index < savedSentences.length) {
-            readSentence(savedSentences[index]);
-            index++;
-            currentUtterance.onend = () => {
-                setTimeout(playNextSentence, 2000); // Delay between sentences
-            };
-        }
-    };
-    playNextSentence();
 }
+
+// Add event listener for the Auto Play button
+document.getElementById('auto-play-btn').addEventListener('click', () => {
+    autoPlayInterval = setInterval(() => {
+        displaySentence();
+    }, 4000); // Change sentence every 4 seconds
+});
+
+// Add event listener for the Stop Auto Play button
+document.getElementById('stop-auto-play-btn').addEventListener('click', () => {
+    clearInterval(autoPlayInterval);
+    autoPlayInterval = null;
+});
+
+// Add event listener for the Speed control dropdown
+document.getElementById('speed').addEventListener('change', (event) => {
+    currentSpeed = parseFloat(event.target.value);
+});
 
 // Add event listener for the Clear List button
 document.getElementById('clear-list-btn').addEventListener('click', () => {
-    savedSentences = [];
     localStorage.removeItem('savedSentences');
+    savedSentences = [];
     updateSavedSentencesList();
 });
 
-// Initialize saved sentences list on page load
+// Add event listener for the Suggestion button
+document.getElementById('suggestion-btn').addEventListener('click', () => {
+    const suggestionInput = document.getElementById('suggestion-input');
+    const suggestionResponse = document.getElementById('suggestion-response');
+
+    if (suggestionInput.value) {
+        suggestionResponse.textContent = `Thank you for your suggestion: "${suggestionInput.value}"!`;
+        suggestionInput.value = ''; // Clear input field
+    } else {
+        suggestionResponse.textContent = 'Please enter a sentence to suggest.';
+    }
+});
+
+// Initial load of saved sentences
 updateSavedSentencesList();
