@@ -21,11 +21,8 @@ async function loadSentences() {
     const data = await response.json();
     const sentences = category === 'playSaved' ? savedSentences : data[category];
 
-    console.log('Loaded sentences:', sentences); // Debugging: Check loaded sentences
-
     if (sentences && sentences.length > 0) {
         const randomIndex = Math.floor(Math.random() * sentences.length);
-        console.log('Displaying sentence:', sentences[randomIndex]); // Debugging: Check displayed sentence
         displaySentence(sentences[randomIndex], category === 'playSaved');
     } else {
         document.getElementById('sentence-container').innerText = 'No sentences available in this category.';
@@ -38,6 +35,7 @@ function displaySentence(sentence, isSaved) {
 
     if (isSaved) {
         sentenceContainer.innerText = sentence; // Display just the saved sentence
+        readSentence(sentence, 'en-US'); // Read the saved sentence (assumes English for saved sentences)
     } else {
         const [english, spanish] = sentence.split('|'); // Split into English and Spanish
         sentenceContainer.innerHTML = `<strong>English:</strong> ${english}<br/><strong>Español:</strong> ${spanish}`;
