@@ -2,6 +2,7 @@
 let sentences = [];
 let currentSentenceIndex = 0;
 let currentUtterance = null; // To keep track of the current speech
+let savedSentences = JSON.parse(localStorage.getItem('savedSentences')) || [];
 
 // Fetch data from the JSON file
 fetch('data.json')
@@ -21,6 +22,13 @@ function populateCategories() {
         option.textContent = category.charAt(0).toUpperCase() + category.slice(1);
         categorySelect.appendChild(option);
     }
+
+    // Add an option to play the saved sentences
+    const playSavedOption = document.createElement('option');
+    playSavedOption.value = 'saved';
+    playSavedOption.textContent = 'Play Saved Sentences';
+    categorySelect.appendChild(playSavedOption);
+
     categorySelect.addEventListener('change', displaySentence);
 }
 
@@ -29,12 +37,18 @@ function displaySentence() {
     const categorySelect = document.getElementById('category');
     const selectedCategory = categorySelect.value;
     const sentenceElement = document.getElementById('sentence');
-    
+
+    if (selectedCategory === 'saved') {
+        // If "Play Saved Sentences" is selected
+        playSavedSentences();
+        return;
+    }
+
     const randomIndex = Math.floor(Math.random() * sentences[selectedCategory].length);
     currentSentenceIndex = randomIndex;
-    
+
     const sentence = sentences[selectedCategory][randomIndex];
-    
+
     // Highlight one or two Spanish words
     const words = sentence.split(' ');
     const spanishWords = words.filter(word => /[áéíóúü]/.test(word));
@@ -92,3 +106,55 @@ document.getElementById('stop-btn').addEventListener('click', () => {
 document.getElementById('next-btn').addEventListener('click', () => {
     displaySentence();
 });
+
+// Add event listener for the Save Sentence button
+document.getElementById('save-btn').addEventListener('click', () => {
+    const sentenceElement = document.getElementById('sentence');
+    const currentSentence = sentenceElement.textContent.replace(/<[^>]*>/g, ''); // Strip HTML tags
+    if (currentSentence && !savedSentences.includes(currentSentence)) {
+        savedSentences.push(currentSentence);
+        localStorage.setItem('savedSentences', JSON.stringify(savedSentences));
+        updateSavedSentencesList();
+    }
+});
+
+// Function to update the saved sentences list display
+function updateSavedSentencesList() {
+    const sentenceList = document.getElementById('sentence-list');
+    sentenceList.innerHTML = ''; // Clear the list
+    savedSentences.forEach(sentence => {
+        const li = document.createElement('li');
+        li.textContent = sentence;
+        sentenceList.appendChild(li);
+    });
+}
+
+// Function to play saved sentences
+function playSavedSentences() {
+    if (savedSentences.length === 0) {
+        alert('No saved sentences to play.');
+        return;
+    }
+    let index = 0;
+
+    const playNextSentence = () => {
+        if (index < savedSentences.length) {
+            readSentence(savedSentences[index]);
+            index++;
+            currentUtterance.onend = () => {
+                setTimeout(playNextSentence, 2000); // Delay between sentences
+            };
+        }
+    };
+    playNextSentence();
+}
+
+// Add event listener for the Clear List button
+document.getElementById('clear-list-btn').addEventListener('click', () => {
+    savedSentences = [];
+    localStorage.removeItem('savedSentences');
+    updateSavedSentencesList();
+});
+
+// Initialize saved sentences list on page load
+updateSavedSentencesList();
