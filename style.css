@@ -68,3 +68,12 @@ button:hover {
 #sentence-list li {
     padding: 5px 0; /* Space between list items */
 }
+
+.speed-control {
+    margin: 20px 0;
+}
+
+.suggestion {
+    margin-top: 30px;
+    text-align: left;
+}
