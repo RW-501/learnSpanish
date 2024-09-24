@@ -1,121 +1,56 @@
-// Load sentences from the JSON file
-let sentences = [];
-let currentSentenceIndex = 0;
-let currentUtterance = null; // To keep track of the current speech
+// Initialize saved sentences
 let savedSentences = JSON.parse(localStorage.getItem('savedSentences')) || [];
-let autoPlayInterval = null; // For auto play
-let currentSpeed = 1; // Default speed
-let isAutoPlaying = false; // To track auto play state
+let currentSentenceIndex = 0;
+let autoPlayInterval = null;
+let isAutoPlaying = false;
+let currentSpeed = 1.0;
 
-// Fetch data from the JSON file
-fetch('data.json')
-    .then(response => response.json())
-    .then(data => {
-        sentences = data;
-        populateCategories();
-        displaySentence();
-    });
+// Initialize speech synthesis
+const synth = window.speechSynthesis;
+let voices = [];
 
-// Populate category dropdown
-function populateCategories() {
-    const categorySelect = document.getElementById('category');
-    for (const category in sentences) {
+// Load voices
+function loadVoices() {
+    voices = synth.getVoices();
+    const voiceSelect = document.getElementById('voice-select');
+    voices.forEach(voice => {
         const option = document.createElement('option');
-        option.value = category;
-        option.textContent = category.charAt(0).toUpperCase() + category.slice(1);
-        categorySelect.appendChild(option);
-    }
-
-    // Add an option to play the saved sentences
-    const playSavedOption = document.createElement('option');
-    playSavedOption.value = 'saved';
-    playSavedOption.textContent = 'Play Saved Sentences';
-    categorySelect.appendChild(playSavedOption);
-
-    categorySelect.addEventListener('change', displaySentence);
+        option.value = voice.name;
+        option.textContent = `${voice.name} (${voice.lang})`;
+        voiceSelect.appendChild(option);
+    });
 }
 
-// Display a sentence with highlighted words
-function displaySentence() {
-    const categorySelect = document.getElementById('category');
-    const selectedCategory = categorySelect.value;
-    const sentenceElement = document.getElementById('sentence');
+// Set initial voice selection
+window.speechSynthesis.onvoiceschanged = loadVoices;
 
-    if (selectedCategory === 'saved') {
-        // If "Play Saved Sentences" is selected
-        playSavedSentences();
-        return;
-    }
-
-    const randomIndex = Math.floor(Math.random() * sentences[selectedCategory].length);
-    currentSentenceIndex = randomIndex;
-
-    const sentence = sentences[selectedCategory][randomIndex];
-
-    // Highlight one or two Spanish words
-    const words = sentence.split(' ');
-    const spanishWords = words.filter(word => /[áéíóúü]/.test(word));
-    const highlightedIndices = [];
-
-    // Select random indices to highlight
-    while (highlightedIndices.length < Math.min(2, spanishWords.length)) {
-        const randomIdx = Math.floor(Math.random() * spanishWords.length);
-        if (!highlightedIndices.includes(randomIdx)) {
-            highlightedIndices.push(randomIdx);
-        }
-    }
-
-    // Create highlighted sentence
-    const highlightedSentence = words.map((word, index) => {
-        if (highlightedIndices.includes(spanishWords.indexOf(word))) {
-            return `<span class="highlight">${word}</span>`;
-        }
-        return word;
-    }).join(' ');
-
-    sentenceElement.innerHTML = highlightedSentence;
-    readSentence(sentence);
-}
-
-// Function to read the sentence aloud
+// Function to read a sentence
 function readSentence(sentence) {
-    // Stop any current speech
-    if (currentUtterance) {
-        window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(sentence);
+    const selectedVoice = document.getElementById('voice-select').value;
+    const voice = voices.find(v => v.name === selectedVoice);
+    if (voice) {
+        utterance.voice = voice;
     }
-
-    currentUtterance = new SpeechSynthesisUtterance(sentence);
-    currentUtterance.rate = currentSpeed; // Use current speed
-    window.speechSynthesis.speak(currentUtterance);
-    currentUtterance.onend = () => {
-        // Automatically move to the next sentence after speaking ends
-        setTimeout(displaySentence, 2000); // 2 seconds delay before the next sentence
-    };
+    utterance.rate = currentSpeed;
+    synth.speak(utterance);
 }
 
-// Update button states
-function updatePlayStopButton() {
-    const playStopBtn = document.getElementById('play-stop-btn');
-    if (isAutoPlaying) {
-        playStopBtn.textContent = 'Stop';
-    } else {
-        playStopBtn.textContent = 'Play';
-    }
+// Function to display the current sentence
+function displaySentence() {
+    const englishSentence = "This is the English version.";
+    const spanishSentence = "Esta es la versión en español.";
+    const sentenceElement = document.getElementById('sentence');
+    sentenceElement.innerHTML = `<strong>English:</strong> ${englishSentence}<br/><strong>Español:</strong> ${spanishSentence}`;
+    readSentence(englishSentence);
 }
 
 // Add event listener for the Play/Stop button
 document.getElementById('play-stop-btn').addEventListener('click', () => {
-    if (isAutoPlaying) {
-        clearInterval(autoPlayInterval);
-        autoPlayInterval = null;
-        isAutoPlaying = false;
-        updatePlayStopButton();
-        window.speechSynthesis.cancel(); // Stop current speech
+    if (synth.speaking) {
+        synth.cancel();
     } else {
-        currentSentenceIndex = 0;
-        playSavedSentences();
-        isAutoPlaying = true;
-        updatePlayStopButton();
+        displaySentence();
     }
 });
 
@@ -167,9 +102,20 @@ document.getElementById('save-btn').addEventListener('click', () => {
 function updateSavedSentencesList() {
     const sentenceList = document.getElementById('sentence-list');
     sentenceList.innerHTML = ''; // Clear current list
-    savedSentences.forEach(sentence => {
+    savedSentences.forEach((sentence, index) => {
         const li = document.createElement('li');
         li.textContent = sentence;
+        
+        // Create remove button
+        const removeBtn = document.createElement('button');
+        removeBtn.textContent = 'Remove';
+        removeBtn.addEventListener('click', () => {
+            savedSentences.splice(index, 1); // Remove sentence
+            localStorage.setItem('savedSentences', JSON.stringify(savedSentences));
+            updateSavedSentencesList(); // Update display
+        });
+        
+        li.appendChild(removeBtn); // Append remove button to list item
         sentenceList.appendChild(li);
     });
 }
@@ -204,5 +150,12 @@ document.getElementById('submit-suggestion-btn').addEventListener('click', () =>
     }
 });
 
-// Initial load of saved sentences
+// Volume control event listener
+document.getElementById('volume').addEventListener('input', (event) => {
+    const volume = event.target.value;
+    synth.volume = volume; // Set the volume
+});
+
+// Initial load of saved sentences and voices
 updateSavedSentencesList();
+loadVoices();
