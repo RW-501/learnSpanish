@@ -1,15 +1,11 @@
-// Initialize saved sentences
 let savedSentences = JSON.parse(localStorage.getItem('savedSentences')) || [];
 let currentSentenceIndex = 0;
 let autoPlayInterval = null;
 let isAutoPlaying = false;
 let currentSpeed = 1.0;
-
-// Initialize speech synthesis
 const synth = window.speechSynthesis;
 let voices = [];
 
-// Load voices
 function loadVoices() {
     voices = synth.getVoices();
     const voiceSelect = document.getElementById('voice-select');
@@ -21,10 +17,29 @@ function loadVoices() {
     });
 }
 
-// Set initial voice selection
 window.speechSynthesis.onvoiceschanged = loadVoices;
 
-// Function to read a sentence
+async function loadSentences() {
+    const category = document.getElementById('category').value;
+    const response = await fetch('data.json');
+    const data = await response.json();
+    const sentences = category === 'saved' ? savedSentences : data[category];
+
+    if (sentences && sentences.length > 0) {
+        const randomIndex = Math.floor(Math.random() * sentences.length);
+        displaySentence(sentences[randomIndex]);
+    } else {
+        document.getElementById('sentence').innerText = 'No sentences available in this category.';
+    }
+}
+
+function displaySentence(sentence) {
+    const [english, spanish] = sentence.split('|');
+    const sentenceElement = document.getElementById('sentence');
+    sentenceElement.innerHTML = `<strong>English:</strong> ${english}<br/><strong>Español:</strong> ${spanish}`;
+    readSentence(english);
+}
+
 function readSentence(sentence) {
     const utterance = new SpeechSynthesisUtterance(sentence);
     const selectedVoice = document.getElementById('voice-select').value;
@@ -33,62 +48,32 @@ function readSentence(sentence) {
         utterance.voice = voice;
     }
     utterance.rate = currentSpeed;
+    utterance.volume = document.getElementById('volume').value;
     synth.speak(utterance);
 }
 
-// Function to display the current sentence
-function displaySentence() {
-    const englishSentence = "This is the English version.";
-    const spanishSentence = "Esta es la versión en español.";
-    const sentenceElement = document.getElementById('sentence');
-    sentenceElement.innerHTML = `<strong>English:</strong> ${englishSentence}<br/><strong>Español:</strong> ${spanishSentence}`;
-    readSentence(englishSentence);
-}
-
-// Add event listener for the Play/Stop button
 document.getElementById('play-stop-btn').addEventListener('click', () => {
     if (synth.speaking) {
         synth.cancel();
     } else {
-        displaySentence();
+        loadSentences();
     }
 });
 
-// Function to play saved sentences
-function playSavedSentences() {
-    if (currentSentenceIndex < savedSentences.length) {
-        const currentSentence = savedSentences[currentSentenceIndex];
-        const sentenceElement = document.getElementById('sentence');
-        sentenceElement.innerHTML = currentSentence; // Display the current sentence
-        readSentence(currentSentence);
-        currentSentenceIndex++;
-    } else {
-        currentSentenceIndex = 0; // Reset to the start
-    }
-}
-
-// Add event listener for the Auto Play/Stop button
 document.getElementById('auto-play-stop-btn').addEventListener('click', () => {
     if (isAutoPlaying) {
         clearInterval(autoPlayInterval);
-        autoPlayInterval = null;
         isAutoPlaying = false;
-        updatePlayStopButton();
     } else {
-        autoPlayInterval = setInterval(() => {
-            displaySentence();
-        }, 4000); // Change sentence every 4 seconds
+        autoPlayInterval = setInterval(loadSentences, 4000); // Change sentence every 4 seconds
         isAutoPlaying = true;
-        updatePlayStopButton();
     }
 });
 
-// Add event listener for the Speed control dropdown
 document.getElementById('speed').addEventListener('change', (event) => {
     currentSpeed = parseFloat(event.target.value);
 });
 
-// Add event listener for the Save Sentence button
 document.getElementById('save-btn').addEventListener('click', () => {
     const currentSentence = document.getElementById('sentence').innerText;
     if (currentSentence && !savedSentences.includes(currentSentence)) {
@@ -98,64 +83,38 @@ document.getElementById('save-btn').addEventListener('click', () => {
     }
 });
 
-// Update saved sentences list display
 function updateSavedSentencesList() {
     const sentenceList = document.getElementById('sentence-list');
-    sentenceList.innerHTML = ''; // Clear current list
+    sentenceList.innerHTML = '';
     savedSentences.forEach((sentence, index) => {
         const li = document.createElement('li');
         li.textContent = sentence;
-        
-        // Create remove button
+
         const removeBtn = document.createElement('button');
         removeBtn.textContent = 'Remove';
         removeBtn.addEventListener('click', () => {
-            savedSentences.splice(index, 1); // Remove sentence
+            savedSentences.splice(index, 1);
             localStorage.setItem('savedSentences', JSON.stringify(savedSentences));
-            updateSavedSentencesList(); // Update display
+            updateSavedSentencesList();
         });
-        
-        li.appendChild(removeBtn); // Append remove button to list item
+
+        li.appendChild(removeBtn);
         sentenceList.appendChild(li);
     });
 }
 
-// Add event listener for the Clear List button
 document.getElementById('clear-list-btn').addEventListener('click', () => {
     localStorage.removeItem('savedSentences');
     savedSentences = [];
     updateSavedSentencesList();
 });
 
-// Show suggestion pop-up
 document.getElementById('suggestion-btn').addEventListener('click', () => {
     document.getElementById('suggestion-popup').style.display = 'block';
 });
 
-// Close suggestion pop-up
 document.getElementById('close-popup-btn').addEventListener('click', () => {
     document.getElementById('suggestion-popup').style.display = 'none';
 });
 
-// Add event listener for the Submit Suggestion button
-document.getElementById('submit-suggestion-btn').addEventListener('click', () => {
-    const suggestionInput = document.getElementById('suggestion-input');
-    const suggestionResponse = document.getElementById('suggestion-response');
-
-    if (suggestionInput.value) {
-        suggestionResponse.textContent = `Thank you for your suggestion: "${suggestionInput.value}"!`;
-        suggestionInput.value = ''; // Clear input field
-    } else {
-        suggestionResponse.textContent = 'Please enter a sentence to suggest.';
-    }
-});
-
-// Volume control event listener
-document.getElementById('volume').addEventListener('input', (event) => {
-    const volume = event.target.value;
-    synth.volume = volume; // Set the volume
-});
-
-// Initial load of saved sentences and voices
-updateSavedSentencesList();
-loadVoices();
+document.get
