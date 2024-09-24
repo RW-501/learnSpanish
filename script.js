@@ -21,8 +21,11 @@ async function loadSentences() {
     const data = await response.json();
     const sentences = category === 'playSaved' ? savedSentences : data[category];
 
+    console.log('Loaded sentences:', sentences); // Debugging: Check loaded sentences
+
     if (sentences && sentences.length > 0) {
         const randomIndex = Math.floor(Math.random() * sentences.length);
+        console.log('Displaying sentence:', sentences[randomIndex]); // Debugging: Check displayed sentence
         displaySentence(sentences[randomIndex], category === 'playSaved');
     } else {
         document.getElementById('sentence-container').innerText = 'No sentences available in this category.';
@@ -34,19 +37,20 @@ function displaySentence(sentence, isSaved) {
     const sentenceContainer = document.getElementById('sentence-container');
 
     if (isSaved) {
-        sentenceContainer.innerText = sentence; // Display just the sentence
+        sentenceContainer.innerText = sentence; // Display just the saved sentence
     } else {
-        const [english, spanish] = sentence.split('|');
+        const [english, spanish] = sentence.split('|'); // Split into English and Spanish
         sentenceContainer.innerHTML = `<strong>English:</strong> ${english}<br/><strong>Español:</strong> ${spanish}`;
     }
 
-    readSentence(isSaved ? sentence : sentence.split('|')[0]); // Read only the sentence for saved entries
+    // Read the English part or the saved sentence
+    readSentence(isSaved ? sentence : sentence.split('|')[0]); 
 }
 
 // Read the sentence using the selected voice
 function readSentence(sentence) {
     const utterance = new SpeechSynthesisUtterance(sentence);
-    const selectedVoice = voices.find(v => v.name === 'Google US English'); // Replace with desired voice
+    const selectedVoice = voices.find(v => v.lang === 'en-US'); // Change to the desired voice for English
     if (selectedVoice) {
         utterance.voice = selectedVoice;
     }
@@ -58,30 +62,28 @@ function readSentence(sentence) {
 function togglePlay() {
     if (synth.speaking) {
         synth.cancel();
-                document.getElementById('play-button').innerText = 'Play'; // Change button text back
+        document.getElementById('play-button').innerText = 'Play'; // Change button text back
     } else {
-                        document.getElementById('play-button').innerText = 'Stop'; // Change button text back
+        document.getElementById('play-button').innerText = 'Stop'; // Change button text back
         loadSentences();
     }
 }
 
-
 // Auto play functionality
 function toggleAutoPlay() {
-        if (synth.speaking) {
+    if (synth.speaking) {
         synth.cancel();
     }
     if (isAutoPlaying) {
         clearInterval(autoPlayInterval);
         isAutoPlaying = false;
         document.getElementById('auto-play-button').innerText = 'Auto Play'; // Change button text back
-                        document.getElementById('play-button').innerText = 'Play'; // Change button text back
-
+        document.getElementById('play-button').innerText = 'Play'; // Change button text back
     } else {
         autoPlayInterval = setInterval(loadSentences, 4000); // Change sentence every 4 seconds
         isAutoPlaying = true;
         document.getElementById('auto-play-button').innerText = 'Stop Auto'; // Change to 'Stop Auto' when playing
-                        document.getElementById('play-button').innerText = 'Stop'; // Change button text back
+        document.getElementById('play-button').innerText = 'Stop'; // Change button text back
     }
 }
 
