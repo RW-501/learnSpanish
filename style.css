@@ -1,100 +1,132 @@
+/* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f3f4f6;
-    color: #333;
+    font-family: 'Roboto', sans-serif; /* A clean and modern font */
+    background-color: #f9f9f9; /* Light background for a fresh look */
+    color: #333; /* Dark gray text for good readability */
     text-align: center;
     padding: 20px;
+    margin: 0;
 }
 
 .container {
-    max-width: 600px;
-    margin: 0 auto;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    max-width: 800px; /* Wider container for better content spacing */
+    margin: 20px auto; /* Center the container */
+    background-color: #ffffff; /* White background for the main area */
+    border-radius: 12px; /* Rounded corners for a softer appearance */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    padding: 30px; /* Increased padding for more whitespace */
+    transition: box-shadow 0.3s; /* Smooth transition for hover effects */
 }
 
+.container:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
+}
+
+/* Headings */
 h1 {
-    font-size: 24px;
+    font-size: 28px; /* Larger font for main heading */
     margin-bottom: 20px;
+    color: #2c3e50; /* Darker shade for contrast */
 }
 
+h2 {
+    font-size: 22px; /* Slightly smaller font for subheadings */
+    margin: 20px 0 10px; /* Margin adjustments for spacing */
+    color: #2980b9; /* Blue color for subheadings */
+}
+
+/* Category Selector */
 .category-selector {
     margin-bottom: 20px;
 }
 
+/* Sentence Container */
 .sentence-container {
     font-size: 20px;
-    margin: 20px 0;
+    margin: 30px 0; /* Increased margin for better spacing */
+    padding: 15px;
+    border: 1px solid #e0e0e0; /* Light border for separation */
+    border-radius: 8px; /* Rounded corners */
+    background-color: #f3f3f3; /* Slightly darker background for contrast */
 }
 
+/* Control Buttons */
 .controls {
-    margin-top: 20px;
+    margin-top: 30px; /* Increased margin for spacing */
+    display: flex; /* Use flexbox for better button alignment */
+    flex-wrap: wrap; /* Allow wrapping of buttons */
+    justify-content: center; /* Center buttons */
 }
 
 button {
-    background-color: #4CAF50;
+    background-color: #3498db; /* Main button color */
     color: white;
     border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
+    border-radius: 6px; /* Slightly more rounded buttons */
+    padding: 12px 20px; /* Increased padding for a better click area */
     cursor: pointer;
     font-size: 16px;
-    margin: 0 10px;
-    transition: background-color 0.3s;
+    margin: 10px; /* Spacing between buttons */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #2980b9; /* Darker blue on hover */
+    transform: translateY(-2px); /* Slight lift effect on hover */
 }
 
+/* Highlighted Text */
 .highlight {
-    background-color: #ffeb3b;
+    color: #e67e22; /* Distinct color for highlighted text */
     font-weight: bold;
 }
 
-/* Style for saved sentences section */
-.saved-sentences {
+/* Speed and Volume Controls */
+.speed-control,
+.volume-control {
+    margin: 20px 0; /* Margin for spacing */
+}
+
+/* Saved Sentences */
+#saved-sentences-container {
     margin-top: 30px;
-    text-align: left;
+    padding: 15px;
+    border: 1px solid #e0e0e0; /* Light border */
+    border-radius: 8px;
+    background-color: #f3f3f3;
 }
 
-#sentence-list {
-    list-style-type: none; /* No bullets for the list */
-    padding: 0; /* No padding */
-}
-
-#sentence-list li {
-    padding: 5px 0; /* Space between list items */
-}
-
-.speed-control {
-    margin: 20px 0;
-}
-
-/* Pop-up style */
+/* Popup Styles */
 .popup {
     display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-.popup-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
+    position: fixed; /* Fixed position for popup */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); /* Center the popup */
+    background-color: white; /* Popup background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    z-index: 1000; /* Bring popup above other elements */
 }
 
-#close-popup-btn {
-    margin-top: 10px;
+/* Popup Close Button */
+#close-popup {
+    background-color: #e74c3c; /* Red color for close button */
+}
+
+#close-popup:hover {
+    background-color: #c0392b; /* Darker red on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .container {
+        width: 90%; /* Responsive width on small screens */
+    }
+
+    button {
+        width: 100%; /* Full width buttons on mobile */
+        margin: 5px 0; /* Adjusted margins */
+    }
 }
