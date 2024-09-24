@@ -117,4 +117,22 @@ document.getElementById('close-popup-btn').addEventListener('click', () => {
     document.getElementById('suggestion-popup').style.display = 'none';
 });
 
-document.get
+document.getElementById('submit-suggestion-btn').addEventListener('click', () => {
+    const suggestion = document.getElementById('suggestion-input').value;
+    if (suggestion) {
+        saveSuggestion(suggestion);
+        document.getElementById('suggestion-response').innerText = 'Suggestion submitted!';
+    }
+});
+
+async function saveSuggestion(suggestion) {
+    const response = await fetch('submit_suggestion.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ suggestion })
+    });
+    const result = await response.json();
+    console.log(result.message);
+}
+
+window.onload = updateSavedSentencesList;
