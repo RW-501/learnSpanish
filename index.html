@@ -21,12 +21,29 @@
             <button id="stop-btn">Stop</button>
             <button id="next-btn">Next</button>
             <button id="save-btn">Save Sentence</button>
+            <button id="play-saved-btn">Play Saved List</button>
+            <button id="auto-play-btn">Auto Play</button>
+            <button id="stop-auto-play-btn">Stop Auto Play</button>
+        </div>
+        <div class="speed-control">
+            <label for="speed">Speech Speed:</label>
+            <select id="speed">
+                <option value="0.5">Slow</option>
+                <option value="1" selected>Normal</option>
+                <option value="1.5">Fast</option>
+                <option value="2">Very Fast</option>
+            </select>
         </div>
         <div class="saved-sentences">
             <h2>Your Saved Sentences</h2>
             <ul id="sentence-list"></ul>
             <button id="clear-list-btn">Clear List</button>
-            <button id="play-saved-btn">Play Saved List</button>
+        </div>
+        <div class="suggestion">
+            <h2>Suggest a Sentence</h2>
+            <input type="text" id="suggestion-input" placeholder="Enter your suggestion">
+            <button id="suggestion-btn">Submit Suggestion</button>
+            <p id="suggestion-response" class="response"></p>
         </div>
     </div>
 
