@@ -62,6 +62,18 @@ function readSentence(sentence) {
     synth.speak(utterance);
 }
 
+function playSavedSentences() {
+    // Clear any existing speech
+    speechSynthesis.cancel();
+
+    // Iterate through saved sentences and play them
+    savedSentences.forEach(sentence => {
+        const [english, spanish] = sentence.split('|'); // Split the sentence into English and Spanish
+        const utterance = new SpeechSynthesisUtterance(english + " " + spanish); // Combine the two sentences without labels
+        speechSynthesis.speak(utterance);
+    });
+}
+
 // Play/Stop button functionality
 document.getElementById('play-stop-btn').addEventListener('click', () => {
     const button = document.getElementById('play-stop-btn');
