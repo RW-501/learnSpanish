@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spanish Learning App</title>
     <link rel="stylesheet" href="style.css">
+    <title>Spanish Learning App</title>
 </head>
 <body>
     <div class="container">
-        <h1>Learn Spanish with Common Phrases</h1>
+        <h1>Learn Spanish with Sentences</h1>
 
-        <div class="category-selector">
+      <div class="category-selector">
             <select id="category-dropdown">
                 <option value="conversation">Conversation</option>
                 <option value="food">Food</option>
@@ -29,48 +29,36 @@
             </select>
         </div>
 
+
         <div class="sentence-container" id="sentence-container">
             <!-- Sentence will be displayed here -->
         </div>
 
         <div class="controls">
-            <button id="play-button">Play</button>
-            <button id="auto-play-button">Auto Play</button>
-            <button id="stop-button">Stop</button>
-            <button id="save-button">Save Sentence</button>
-            <button id="clear-button">Clear Saved Sentences</button>
-      <!--        <button id="suggest-button">Add Suggestion</button>
-            <button id="remove-button">Remove Selected Sentence</button>
--->
-            <div class="speed-control">
-                <label for="speed-dropdown">Speech Speed:</label>
-                <select id="speed-dropdown">
-                    <option value="0.5">0.5x</option>
-                    <option value="1.0" selected>1.0x</option>
-                    <option value="1.5">1.5x</option>
-                    <option value="2.0">2.0x</option>
-                </select>
-            </div>
+            <button id="play-button" onclick="togglePlay()">Play</button>
+            <button id="auto-play-button" onclick="toggleAutoPlay()">Auto Play</button>
+            <button id="stop-button" onclick="stop()">Stop</button>
+            <button id="add-sentence-button" onclick="addToSavedList()">Save Sentence</button>
+        </div>
 
-            <div class="volume-control">
-                <label for="volume-slider">Volume:</label>
-                <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="1">
-            </div>
+        <div class="speed-control">
+            <h2>Adjust Speed:</h2>
+            <input type="range" id="speed-range" min="0.5" max="2" step="0.1" value="1" onchange="changeSpeed()">
         </div>
 
         <div id="saved-sentences-container">
-            <h2>Saved Sentences</h2>
-            <ul id="saved-sentences-list">
-                <!-- Saved sentences will be displayed here -->
-            </ul>
+            <h2>Saved Sentences:</h2>
+            <ul id="saved-sentences-list"></ul>
         </div>
 
-        <div id="suggestion-popup" class="popup">
-            <h2>Suggestion</h2>
-            <input type="text" id="suggestion-input" placeholder="Enter your suggestion here">
-            <button id="submit-suggestion">Submit</button>
-            <button id="close-popup">Close</button>
+        <div class="popup" id="suggestion-popup">
+            <h2>Suggest a Sentence</h2>
+            <textarea id="suggestion-input" rows="4" placeholder="Enter your suggestion..."></textarea>
+            <button id="submit-suggestion" onclick="submitSuggestion()">Submit</button>
+            <button id="close-popup" onclick="closePopup()">Close</button>
         </div>
+
+        <button id="show-suggestion-popup" onclick="showPopup()">Suggest a Sentence</button>
     </div>
 
     <script src="script.js"></script>
