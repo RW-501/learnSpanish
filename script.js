@@ -5,6 +5,7 @@ let currentUtterance = null; // To keep track of the current speech
 let savedSentences = JSON.parse(localStorage.getItem('savedSentences')) || [];
 let autoPlayInterval = null; // For auto play
 let currentSpeed = 1; // Default speed
+let isAutoPlaying = false; // To track auto play state
 
 // Fetch data from the JSON file
 fetch('data.json')
@@ -92,50 +93,29 @@ function readSentence(sentence) {
     };
 }
 
-// Add event listener for the Repeat button
-document.getElementById('repeat-btn').addEventListener('click', () => {
-    const sentenceElement = document.getElementById('sentence');
-    const currentSentence = sentenceElement.textContent.replace(/<[^>]*>/g, ''); // Strip HTML tags
-    readSentence(currentSentence);
-});
-
-// Add event listener for the Stop button
-document.getElementById('stop-btn').addEventListener('click', () => {
-    window.speechSynthesis.cancel();
-});
-
-// Add event listener for the Next button
-document.getElementById('next-btn').addEventListener('click', () => {
-    displaySentence();
-});
-
-// Add event listener for the Save Sentence button
-document.getElementById('save-btn').addEventListener('click', () => {
-    const sentenceElement = document.getElementById('sentence');
-    const currentSentence = sentenceElement.textContent.replace(/<[^>]*>/g, ''); // Strip HTML tags
-    if (currentSentence && !savedSentences.includes(currentSentence)) {
-        savedSentences.push(currentSentence);
-        localStorage.setItem('savedSentences', JSON.stringify(savedSentences));
-        updateSavedSentencesList();
+// Update button states
+function updatePlayStopButton() {
+    const playStopBtn = document.getElementById('play-stop-btn');
+    if (isAutoPlaying) {
+        playStopBtn.textContent = 'Stop';
+    } else {
+        playStopBtn.textContent = 'Play';
     }
-});
-
-// Function to update the saved sentences list display
-function updateSavedSentencesList() {
-    const sentenceList = document.getElementById('sentence-list');
-    sentenceList.innerHTML = ''; // Clear the list
-    savedSentences.forEach(sentence => {
-        const li = document.createElement('li');
-        li.textContent = sentence;
-        sentenceList.appendChild(li);
-    });
 }
 
-// Add event listener for the Play Saved List button
-document.getElementById('play-saved-btn').addEventListener('click', () => {
-    if (savedSentences.length > 0) {
+// Add event listener for the Play/Stop button
+document.getElementById('play-stop-btn').addEventListener('click', () => {
+    if (isAutoPlaying) {
+        clearInterval(autoPlayInterval);
+        autoPlayInterval = null;
+        isAutoPlaying = false;
+        updatePlayStopButton();
+        window.speechSynthesis.cancel(); // Stop current speech
+    } else {
         currentSentenceIndex = 0;
         playSavedSentences();
+        isAutoPlaying = true;
+        updatePlayStopButton();
     }
 });
 
@@ -152,23 +132,47 @@ function playSavedSentences() {
     }
 }
 
-// Add event listener for the Auto Play button
-document.getElementById('auto-play-btn').addEventListener('click', () => {
-    autoPlayInterval = setInterval(() => {
-        displaySentence();
-    }, 4000); // Change sentence every 4 seconds
-});
-
-// Add event listener for the Stop Auto Play button
-document.getElementById('stop-auto-play-btn').addEventListener('click', () => {
-    clearInterval(autoPlayInterval);
-    autoPlayInterval = null;
+// Add event listener for the Auto Play/Stop button
+document.getElementById('auto-play-stop-btn').addEventListener('click', () => {
+    if (isAutoPlaying) {
+        clearInterval(autoPlayInterval);
+        autoPlayInterval = null;
+        isAutoPlaying = false;
+        updatePlayStopButton();
+    } else {
+        autoPlayInterval = setInterval(() => {
+            displaySentence();
+        }, 4000); // Change sentence every 4 seconds
+        isAutoPlaying = true;
+        updatePlayStopButton();
+    }
 });
 
 // Add event listener for the Speed control dropdown
 document.getElementById('speed').addEventListener('change', (event) => {
     currentSpeed = parseFloat(event.target.value);
 });
+
+// Add event listener for the Save Sentence button
+document.getElementById('save-btn').addEventListener('click', () => {
+    const currentSentence = document.getElementById('sentence').innerText;
+    if (currentSentence && !savedSentences.includes(currentSentence)) {
+        savedSentences.push(currentSentence);
+        localStorage.setItem('savedSentences', JSON.stringify(savedSentences));
+        updateSavedSentencesList();
+    }
+});
+
+// Update saved sentences list display
+function updateSavedSentencesList() {
+    const sentenceList = document.getElementById('sentence-list');
+    sentenceList.innerHTML = ''; // Clear current list
+    savedSentences.forEach(sentence => {
+        const li = document.createElement('li');
+        li.textContent = sentence;
+        sentenceList.appendChild(li);
+    });
+}
 
 // Add event listener for the Clear List button
 document.getElementById('clear-list-btn').addEventListener('click', () => {
@@ -177,8 +181,18 @@ document.getElementById('clear-list-btn').addEventListener('click', () => {
     updateSavedSentencesList();
 });
 
-// Add event listener for the Suggestion button
+// Show suggestion pop-up
 document.getElementById('suggestion-btn').addEventListener('click', () => {
+    document.getElementById('suggestion-popup').style.display = 'block';
+});
+
+// Close suggestion pop-up
+document.getElementById('close-popup-btn').addEventListener('click', () => {
+    document.getElementById('suggestion-popup').style.display = 'none';
+});
+
+// Add event listener for the Submit Suggestion button
+document.getElementById('submit-suggestion-btn').addEventListener('click', () => {
     const suggestionInput = document.getElementById('suggestion-input');
     const suggestionResponse = document.getElementById('suggestion-response');
 
