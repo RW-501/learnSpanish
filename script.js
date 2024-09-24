@@ -41,16 +41,15 @@ function displaySentence(sentence, isSaved) {
     } else {
         const [english, spanish] = sentence.split('|'); // Split into English and Spanish
         sentenceContainer.innerHTML = `<strong>English:</strong> ${english}<br/><strong>Español:</strong> ${spanish}`;
+        readSentence(english, 'en-US'); // Read the English part
+        readSentence(spanish, 'es-ES'); // Read the Spanish part
     }
-
-    // Read the English part or the saved sentence
-    readSentence(isSaved ? sentence : sentence.split('|')[0]); 
 }
 
 // Read the sentence using the selected voice
-function readSentence(sentence) {
+function readSentence(sentence, lang) {
     const utterance = new SpeechSynthesisUtterance(sentence);
-    const selectedVoice = voices.find(v => v.lang === 'en-US'); // Change to the desired voice for English
+    const selectedVoice = voices.find(v => v.lang === lang); // Select voice based on language
     if (selectedVoice) {
         utterance.voice = selectedVoice;
     }
