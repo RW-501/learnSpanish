@@ -49,15 +49,24 @@ function displaySentence(sentence, isSaved) {
     }
 }
 
-// Read the sentence using the selected voice
+// Read the sentence using the selected voice and current speed
 function readSentence(sentence, lang) {
     const utterance = new SpeechSynthesisUtterance(sentence);
     const selectedVoice = voices.find(v => v.lang === lang); // Select voice based on language
     if (selectedVoice) {
         utterance.voice = selectedVoice;
     }
-    utterance.rate = currentSpeed;
+    utterance.rate = currentSpeed; // Apply current speed
     synth.speak(utterance);
+}
+
+// Adjust speech speed
+function changeSpeed() {
+    currentSpeed = parseFloat(document.getElementById('speed-range').value);
+    if (synth.speaking) {
+        synth.cancel(); // Stop current speech so new speed can take effect
+        loadSentences(); // Restart the sentence at the new speed
+    }
 }
 
 // Play/Stop button functionality
