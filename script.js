@@ -1,81 +1,74 @@
-// Variables
-const sentenceDisplay = document.getElementById('sentence-display');
-const repeatButton = document.getElementById('repeat-button');
-let currentSentence = '';
-let currentWords = [];
+// Load sentences from the JSON file
+let sentences = [];
+let currentSentenceIndex = 0;
 
-// Load sentences from JSON file based on selected category
-function loadSentences() {
-    const category = document.getElementById('category').value;
-    if (!category) return;
+// Fetch data from the JSON file
+fetch('data.json')
+    .then(response => response.json())
+    .then(data => {
+        sentences = data;
+        populateCategories();
+        displaySentence();
+    });
 
-    fetch('data.json')
-        .then(response => response.json())
-        .then(data => {
-            const sentences = data[category];
-            const randomIndex = Math.floor(Math.random() * sentences.length);
-            currentSentence = sentences[randomIndex];
-            currentWords = currentSentence.split(' ');
-            displaySentence(currentSentence);
-            repeatButton.disabled = false; // Enable the repeat button
-        })
-        .catch(error => console.error('Error loading sentences:', error));
+// Populate category dropdown
+function populateCategories() {
+    const categorySelect = document.getElementById('category');
+    for (const category in sentences) {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+        categorySelect.appendChild(option);
+    }
+    categorySelect.addEventListener('change', displaySentence);
 }
 
-// Display the sentence and highlight the Spanish word
-function displaySentence(sentence) {
+// Display a sentence with highlighted words
+function displaySentence() {
+    const categorySelect = document.getElementById('category');
+    const selectedCategory = categorySelect.value;
+    const sentenceElement = document.getElementById('sentence');
+    
+    const randomIndex = Math.floor(Math.random() * sentences[selectedCategory].length);
+    currentSentenceIndex = randomIndex;
+    
+    const sentence = sentences[selectedCategory][randomIndex];
+    
+    // Randomly highlight one or two Spanish words
     const words = sentence.split(' ');
-    sentenceDisplay.innerHTML = ''; // Clear previous sentence
-
-    words.forEach(word => {
-        const span = document.createElement('span');
-        span.textContent = word + ' ';
-        sentenceDisplay.appendChild(span);
-
-        // Highlight the Spanish word (for demo, let's assume the second word is Spanish)
-        if (word === 'español' || word === 'comida' || word === 'ropa') { // Example Spanish words
-            span.classList.add('highlight');
+    const spanishWords = words.filter(word => /[áéíóúü]/.test(word));
+    const highlightedIndices = [];
+    
+    while (highlightedIndices.length < Math.min(2, spanishWords.length)) {
+        const randomIdx = Math.floor(Math.random() * spanishWords.length);
+        if (!highlightedIndices.includes(randomIdx)) {
+            highlightedIndices.push(randomIdx);
         }
-    });
-
-    // Play the audio
-    playAudio(sentence);
-}
-
-// Play audio of the sentence
-function playAudio(sentence) {
-    const speech = new SpeechSynthesisUtterance(sentence);
-    speech.lang = 'es-ES'; // Set language to Spanish for pronunciation
-    speech.onstart = () => {
-        highlightWords();
-    };
-    speech.onend = () => {
-        resetHighlight();
-    };
-    window.speechSynthesis.speak(speech);
-}
-
-// Highlight words as they are spoken
-function highlightWords() {
-    currentWords.forEach((word, index) => {
-        setTimeout(() => {
-            const spans = sentenceDisplay.getElementsByTagName('span');
-            spans[index].classList.add('highlight');
-        }, index * 1000); // Change timeout duration based on your preference
-    });
-}
-
-// Reset highlighting after the sentence is spoken
-function resetHighlight() {
-    const spans = sentenceDisplay.getElementsByTagName('span');
-    for (let span of spans) {
-        span.classList.remove('highlight');
     }
+
+    const highlightedSentence = words.map((word, index) => {
+        if (highlightedIndices.includes(spanishWords.indexOf(word))) {
+            return `<span class="highlight">${word}</span>`;
+        }
+        return word;
+    }).join(' ');
+
+    sentenceElement.innerHTML = highlightedSentence;
+    readSentence(sentence);
 }
 
-// Repeat the current sentence
-function repeatSentence() {
-    if (currentSentence) {
-        playAudio(currentSentence);
-    }
+// Function to read the sentence aloud
+function readSentence(sentence) {
+    const utterance = new SpeechSynthesisUtterance(sentence);
+    window.speechSynthesis.speak(utterance);
 }
+
+// Add event listener for the Repeat button
+document.getElementById('repeat-btn').addEventListener('click', () => {
+    const sentenceElement = document.getElementById('sentence');
+    const currentSentence = sentenceElement.textContent;
+    readSentence(currentSentence);
+});
+
+// Add event listener for the Next button
+document.getElementById('next-btn').addEventListener('click', displaySentence);
