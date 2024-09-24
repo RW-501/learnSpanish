@@ -1,0 +1,37 @@
+{
+    "conversation": [
+        "Hello, ¿cómo estás?",
+        "What is your name, ¿cuál es tu nombre?",
+        "I like to talk, me gusta hablar.",
+        "Where are you from, ¿de dónde eres?",
+        "Do you speak Spanish, ¿hablas español?"
+    ],
+    "food": [
+        "I want food, quiero comida.",
+        "This is delicious, esto es delicioso.",
+        "Do you have water, ¿tienes agua?",
+        "I love tacos, me encantan los tacos.",
+        "What do you want to eat, ¿qué quieres comer?"
+    ],
+    "clothing": [
+        "I need a shirt, necesito una camisa.",
+        "These pants are nice, estos pantalones son bonitos.",
+        "Where is the store, ¿dónde está la tienda?",
+        "I bought shoes, compré zapatos.",
+        "What color is this dress, ¿de qué color es este vestido?"
+    ],
+    "office": [
+        "I have a meeting, tengo una reunión.",
+        "Please send the report, por favor envía el informe.",
+        "Can you help me, ¿puedes ayudarme?",
+        "I need a pen, necesito un bolígrafo.",
+        "Where is the printer, ¿dónde está la impresora?"
+    ],
+    "relationship": [
+        "She is my friend, ella es mi amiga.",
+        "I love you, te amo.",
+        "We are a couple, somos una pareja.",
+        "He is very nice, él es muy amable.",
+        "Do you want to go out, ¿quieres salir?"
+    ]
+}
