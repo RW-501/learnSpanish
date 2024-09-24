@@ -38,7 +38,12 @@ function displaySentence(sentence, isSaved) {
         sentenceContainer.innerHTML = `<strong>English:</strong> ${english}<br/><strong>Español:</strong> ${spanish}`;
         readSentence(english, 'en-US'); // Read the English part
         readSentence(spanish, 'es-ES'); // Read the Spanish part
-        
+                // Log both parts to the console for debugging purposes
+        console.log('sentence:   ', sentence);
+        console.log('sentence trimed:  ', sentence.trim());
+        console.log('English:', english.trim());
+        console.log('Spanish:', spanish ? spanish.trim() : 'No Spanish part found');
+
        // sentenceContainer.innerText = sentence; // Display just the saved sentence
      //   readSentence(sentence, 'en-US'); // Read the saved sentence (assumes English for saved sentences)
     } else {
