@@ -58,19 +58,30 @@ function readSentence(sentence) {
 function togglePlay() {
     if (synth.speaking) {
         synth.cancel();
+                document.getElementById('play-button').innerText = 'Play'; // Change button text back
     } else {
+                        document.getElementById('play-button').innerText = 'Stop'; // Change button text back
         loadSentences();
     }
 }
 
+
 // Auto play functionality
 function toggleAutoPlay() {
+        if (synth.speaking) {
+        synth.cancel();
+    }
     if (isAutoPlaying) {
         clearInterval(autoPlayInterval);
         isAutoPlaying = false;
+        document.getElementById('auto-play-button').innerText = 'Auto Play'; // Change button text back
+                        document.getElementById('play-button').innerText = 'Play'; // Change button text back
+
     } else {
         autoPlayInterval = setInterval(loadSentences, 4000); // Change sentence every 4 seconds
         isAutoPlaying = true;
+        document.getElementById('auto-play-button').innerText = 'Stop Auto'; // Change to 'Stop Auto' when playing
+                        document.getElementById('play-button').innerText = 'Stop'; // Change button text back
     }
 }
 
