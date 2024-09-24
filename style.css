@@ -29,26 +29,31 @@ h1 {
     margin: 20px 0;
 }
 
+/* Control button styles */
 .controls {
-    margin-top: 20px;
+    margin-top: 20px;                /* Space above the control buttons */
 }
 
+/* Button styles */
 button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 16px;
-    margin: 0 10px;
+    background-color: #4CAF50;       /* Green background for buttons */
+    color: white;                    /* White text color for buttons */
+    border: none;                    /* No border */
+    border-radius: 5px;              /* Rounded corners for buttons */
+    padding: 10px 15px;              /* Padding inside the buttons */
+    cursor: pointer;                 /* Pointer cursor on hover */
+    font-size: 16px;                 /* Font size for buttons */
+    margin: 0 10px;                  /* Horizontal margin for spacing */
+    transition: background-color 0.3s; /* Smooth transition on hover */
 }
 
+/* Button hover effect */
 button:hover {
-    background-color: #45a049;
+    background-color: #45a049;       /* Darker green on hover */
 }
 
+/* Highlight styles for Spanish words */
 .highlight {
-    color: #4CAF50;
-    font-weight: bold;
+    background-color: #ffeb3b;       /* Yellow background for highlighted text */
+    font-weight: bold;               /* Bold text for emphasis */
 }
