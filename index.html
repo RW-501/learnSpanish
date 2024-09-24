@@ -4,60 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Learn Spanish with Sentences</title>
+    <title>Language Learning App</title>
 </head>
 <body>
     <div class="container">
-        <h1>Learn Spanish with Common Sentences</h1>
+        <h1>Learn Spanish with English Sentences</h1>
+
         <div class="category-selector">
-            <label for="category">Select a Category:</label>
-            <select id="category"></select>
-        </div>
-        <div class="sentence-container">
-            <p id="sentence" class="sentence"></p>
-        </div>
-        <div class="controls">
-            <button id="play-stop-btn">Play</button>
-            <button id="next-btn">Next</button>
-            <button id="save-btn">Save Sentence</button>
-            <button id="auto-play-stop-btn">Auto Play</button>
-        </div>
-        <div class="speed-control">
-            <label for="speed">Speech Speed:</label>
-            <select id="speed">
-                <option value="0.5">Slow</option>
-                <option value="1" selected>Normal</option>
-                <option value="1.5">Fast</option>
-                <option value="2">Very Fast</option>
+            <label for="category">Choose a category:</label>
+            <select id="category" onchange="loadSentences()">
+                <option value="">Select a category</option>
+                <option value="conversation">Conversation</option>
+                <option value="food">Food</option>
+                <option value="clothing">Clothing</option>
+                <option value="office">Office</option>
+                <option value="relationship">Relationship</option>
+                <option value="saved">Play Saved List</option>
             </select>
         </div>
-<!-- Volume Control -->
-<label for="volume">Volume:</label>
-<input type="range" id="volume" min="0" max="1" step="0.1" value="1">
 
-<!-- Voice Selection -->
-<label for="voice-select">Select Voice:</label>
-<select id="voice-select"></select>
+        <div class="sentence-container" id="sentence"></div>
 
-
-        <div class="saved-sentences">
-            <h2>Your Saved Sentences</h2>
-            <ul id="sentence-list"></ul>
+        <div class="controls">
+            <button id="play-stop-btn">Play</button>
+            <button id="auto-play-stop-btn">Auto Play</button>
+            <label for="speed">Speed:</label>
+            <select id="speed">
+                <option value="0.5">0.5x</option>
+                <option value="1" selected>1.0x</option>
+                <option value="1.5">1.5x</option>
+                <option value="2">2.0x</option>
+            </select>
+            <button id="save-btn">Save Sentence</button>
             <button id="clear-list-btn">Clear List</button>
+            <label for="volume">Volume:</label>
+            <input type="range" id="volume" min="0" max="1" step="0.1" value="1">
+            <label for="voice-select">Select Voice:</label>
+            <select id="voice-select"></select>
         </div>
+
+        <ul id="sentence-list"></ul>
+
         <button id="suggestion-btn">Suggest a Sentence</button>
-    </div>
 
-    <div id="suggestion-popup" class="popup">
-        <div class="popup-content">
-            <h2>Suggest a Sentence</h2>
-            <input type="text" id="suggestion-input" placeholder="Enter your suggestion">
-            <button id="submit-suggestion-btn">Submit Suggestion</button>
-            <button id="close-popup-btn">Close</button>
-            <p id="suggestion-response" class="response"></p>
+        <div id="suggestion-popup" class="popup">
+            <div class="popup-content">
+                <span id="close-popup-btn">&times;</span>
+                <h2>Suggest a Sentence</h2>
+                <input type="text" id="suggestion-input" placeholder="Enter your suggestion">
+                <button id="submit-suggestion-btn">Submit</button>
+                <div id="suggestion-response"></div>
+            </div>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
