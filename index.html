@@ -3,26 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Language Learning - Spanish Practice</title>
     <link rel="stylesheet" href="style.css">
+    <title>Learn Spanish with Sentences</title>
 </head>
 <body>
     <div class="container">
-        <h1>Learn Spanish</h1>
-        <div class="category-selection">
-            <label for="category">Select a category:</label>
-            <select id="category" onchange="loadSentences()">
-                <option value="">--Choose a category--</option>
-                <option value="conversation">Conversation</option>
-                <option value="food">Food</option>
-                <option value="clothing">Clothing</option>
-                <option value="office">Office</option>
-                <option value="relationship">Relationship</option>
-            </select>
+        <h1>Learn Spanish with Common Sentences</h1>
+        <div class="category-selector">
+            <label for="category">Select a Category:</label>
+            <select id="category"></select>
         </div>
-
-        <div id="sentence-display" class="sentence-display"></div>
-        <button id="repeat-button" class="repeat-button" onclick="repeatSentence()" disabled>Repeat</button>
+        <div class="sentence-container">
+            <p id="sentence" class="sentence"></p>
+        </div>
+        <div class="controls">
+            <button id="repeat-btn">Repeat</button>
+            <button id="next-btn">Next</button>
+        </div>
     </div>
 
     <script src="script.js"></script>
