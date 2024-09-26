@@ -9,10 +9,24 @@ let voices = [];
 // Load voices available in the SpeechSynthesis API
 function loadVoices() {
     voices = synth.getVoices();
+    console.log("Loaded voices:", voices);
+    if (!voices.length) {
+        console.warn("No voices loaded. Retrying...");
+        setTimeout(loadVoices, 100); // Retry loading voices
+    }
 }
 
 // Populate the voice options when they change
 window.speechSynthesis.onvoiceschanged = loadVoices;
+
+// Ensure voices are loaded before using them
+window.addEventListener('touchstart', () => {
+    // User interaction to initialize speech synthesis
+    if (!synth.speaking) {
+        let utterance = new SpeechSynthesisUtterance('');
+        synth.speak(utterance); // Empty utterance to activate speech synthesis
+    }
+}, { once: true });
 
 // Load sentences based on the selected category
 async function loadSentences() {
@@ -34,25 +48,16 @@ function displaySentence(sentence, isSaved) {
     const sentenceContainer = document.getElementById('sentence-container');
 
     if (isSaved) {
-                let [english, spanish] = sentence.split('Español:'); // Split into English and Spanish
-// Remove 'English:' from the english part using replace
-english = english.replace('English:', '').trim(); 
+        let [english, spanish] = sentence.split('Español:'); // Split into English and Spanish
+        // Remove 'English:' from the english part using replace
+        english = english.replace('English:', '').trim(); 
+        // Check if the Spanish part exists and remove any leading/trailing spaces
+        spanish = spanish ? spanish.trim() : 'No Spanish part found';
 
-// Check if the Spanish part exists and remove any leading/trailing spaces
-spanish = spanish ? spanish.trim() : 'No Spanish part found';
-
-        
         sentenceContainer.innerHTML = `<strong>English:</strong> ${english}<br/><strong>Español:</strong> ${spanish}`;
         readSentence(english, 'en-US'); // Read the English part
         readSentence(spanish, 'es-ES'); // Read the Spanish part
-                // Log both parts to the console for debugging purposes
-   /*     console.log('sentence:   ', sentence);
-        console.log('sentence trimed:  ', sentence.trim());
-        console.log('English:', english.trim());
-        console.log('Spanish:', spanish ? spanish.trim() : 'No Spanish part found');
-*/
-       // sentenceContainer.innerText = sentence; // Display just the saved sentence
-     //   readSentence(sentence, 'en-US'); // Read the saved sentence (assumes English for saved sentences)
+
     } else {
         const [english, spanish] = sentence.split('|'); // Split into English and Spanish
         sentenceContainer.innerHTML = `<strong>English:</strong> ${english}<br/><strong>Español:</strong> ${spanish}`;
@@ -64,11 +69,25 @@ spanish = spanish ? spanish.trim() : 'No Spanish part found';
 // Read the sentence using the selected voice and current speed
 function readSentence(sentence, lang) {
     const utterance = new SpeechSynthesisUtterance(sentence);
-    const selectedVoice = voices.find(v => v.lang === lang); // Select voice based on language
-    if (selectedVoice) {
-        utterance.voice = selectedVoice;
+
+    // Ensure voices are available before proceeding
+    if (voices.length === 0) {
+        loadVoices(); // Load voices if they are not available
     }
-    utterance.rate = currentSpeed; // Apply current speed
+
+    // Find a voice that matches the language
+    const selectedVoice = voices.find(v => v.lang === lang);
+
+    // Assign selected voice, if found, or use the first available voice
+    utterance.voice = selectedVoice || voices[0] || null;
+
+    // Log if no appropriate voice was found
+    if (!selectedVoice) {
+        console.warn(`No voice found for language: ${lang}`);
+    }
+
+    // Set the rate and speak the sentence
+    utterance.rate = currentSpeed;
     synth.speak(utterance);
 }
 
