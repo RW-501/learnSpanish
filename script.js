@@ -201,8 +201,8 @@ async function saveSuggestion(suggestion) {
 // Initialize saved sentences list on page load
 window.onload = updateSavedSentencesList;
 
-const synth = window.speechSynthesis;
-let voices = [];
+
+
 
 // Load voices available in the SpeechSynthesis API
 function loadVoices() {
