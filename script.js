@@ -1,7 +1,7 @@
 let savedSentences = JSON.parse(localStorage.getItem('savedSentences')) || [];
 let currentSentenceIndex = 0;
 let autoPlayInterval = null;
-let isAutoPlaying = false;let savedSentences = JSON.parse(localStorage.getItem('savedSentences')) || [];
+let isAutoPlaying = false;
 let currentSentenceIndex = 0;
 let autoPlayInterval = null;
 let isAutoPlaying = false;
