@@ -201,7 +201,6 @@ async function saveSuggestion(suggestion) {
 // Initialize saved sentences list on page load
 window.onload = updateSavedSentencesList;
 
-let currentSpeed = 1.0;
 const synth = window.speechSynthesis;
 let voices = [];
 
