@@ -113,25 +113,19 @@ function togglePlay() {
 
 // Auto play functionality
 function toggleAutoPlay() {
-    if (synth.speaking) {
-        synth.cancel();
-    }
     if (isAutoPlaying) {
         clearInterval(autoPlayInterval);
         isAutoPlaying = false;
         document.getElementById('auto-play-button').innerText = 'Auto Play'; // Change button text back
-        document.getElementById('play-button').innerText = 'Play'; // Change button text back
     } else {
-        autoPlayInterval = setInterval(loadSentences, 4000); // Change sentence every 4 seconds
+        autoPlayInterval = setInterval(() => {
+            if (!synth.speaking) { // Only load new sentence if no speech is ongoing
+                loadSentences();
+            }
+        }, 6000); // Change sentence every 6 seconds (increased interval)
         isAutoPlaying = true;
         document.getElementById('auto-play-button').innerText = 'Stop Auto'; // Change to 'Stop Auto' when playing
-        document.getElementById('play-button').innerText = 'Stop'; // Change button text back
     }
-}
-
-// Adjust speech speed
-function changeSpeed() {
-    currentSpeed = parseFloat(document.getElementById('speed-range').value);
 }
 
 // Save current sentence to local storage
